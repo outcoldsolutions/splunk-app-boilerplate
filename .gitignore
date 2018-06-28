@@ -1,0 +1,4 @@
+hack/splunk/licenses/*.lic
+appboilerplate/local/
+appboilerplate/metadata/local.meta
+out/
