@@ -69,20 +69,20 @@ git add . && git commit -m "Renaming boilerplate to ${APPNAME}"
 Start Splunk
 
 ```
-make splunk-up
+make splunk-up APPNAME="${APPNAME}"
 ```
 
 It takes some time to start Splunk, append the configurations, you can follow
 the progress with
 
 ```
-make splunk-logs-follow
+make splunk-logs-follow APPNAME="${APPNAME}"
 ```
 
 When it is done you can open the Splunk Web with
 
 ```
-make splunk-web
+make splunk-web APPNAME="${APPNAME}"
 ```
 
 That automatically will bring you to your application in Splunk Web, already
@@ -94,7 +94,7 @@ If you are modifying files locally on disk, you need to tell Splunk to refresh
 them, open the refresh page
 
 ```
-make splunk-refresh
+make splunk-refresh APPNAME="${APPNAME}"
 ```
 
 You can also specify which parts you want to refresh with query parameters,
@@ -185,21 +185,21 @@ Make sure that you move all of the configurations and changes from
 > Command below deletes `appdemo/local` and `appdemo/metadata/local.meta`!
 
 ```
-make app-clean
+make app-clean APPNAME="${APPNAME}"
 ```
 
 Verify with Splunk AppInspect that your application meets the guidelines
 (not required, but preferable)
 
 ```
-make app-inspect
+make app-inspect APPNAME="${APPNAME}"
 ```
 
 Fix all the issues, if you see some (the `appboilerplate` does not meet the
 guidelines)
 
 ```
-make app-pack
+make app-pack APPNAME="${APPNAME}"
 ```
 
 Upload your application from `out/appdemo.tar.gz`.
