@@ -26,8 +26,10 @@ Download the latest version from the master and untar it directly to the just
 created folder
 
 ```
-curl -L https://github.com/outcoldsolutions/splunk-app-boilerplate/archive/master.tar.gz | tar xvz --strip 1
+curl -L https://github.com/outcoldsolutions/splunk-app-boilerplate/archive/v1.0.tar.gz | tar xvz --strip 1
 ```
+
+> You you can use the latest `https://github.com/outcoldsolutions/splunk-app-boilerplate/archive/master.tar.gz`
 
 Initialize git
 
