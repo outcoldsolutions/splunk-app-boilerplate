@@ -1,9 +1,11 @@
 SPLUNK_IMAGE=splunk/splunk:7.1.0
-SPLUNK_PASSWORD=dev
+APPINSPECT_IMAGE=outcoldsolutions/splunk-appinspect:1.5.4.145
 
-APP_INSPECT_VERSION=1.5.4.145
+SPLUNK_PASSWORD=splunkdev
 
 APP=appboilerplate
+
+.PHONY: splunk-up splunk-down splunk-logs-follow splunk-bash splunk-web splunk-refresh app-clean app-pack app-inspect
 
 splunk-up:
 	docker run \
@@ -22,7 +24,7 @@ splunk-up:
 		--env "SPLUNK_BEFORE_START_CMD=version \$${SPLUNK_START_ARGS}" \
 		--env "SPLUNK_BEFORE_START_CMD_1=cmd python -c \"import subprocess; subprocess.check_call('ln -s /${APP} /opt/splunk/etc/apps/${APP}', shell=True);\"" \
 		--env "SPLUNK_BEFORE_START_CMD_2=cmd python -c \"import subprocess; subprocess.check_call('cp -fR /hack/splunk/etc /opt/splunk/', shell=True);\"" \
-		--env "SPLUNK_CMD=add licenses -auth admin:${PASSWORD} /splunk/licenses/*.lic || true" \
+		--env "SPLUNK_CMD=add licenses -auth admin:${SPLUNK_PASSWORD} /hack/splunk/licenses/*.lic || true" \
 		--env "SPLUNK_CMD_1=restart" \
 		${SPLUNK_IMAGE}
 
@@ -34,7 +36,7 @@ splunk-down:
 splunk-logs-follow:
 	docker logs -f ${APP}-splunk
 
-splunk-exec:
+splunk-bash:
 	docker exec -it ${APP}-splunk bash
 
 splunk-web:
@@ -43,11 +45,11 @@ splunk-web:
 splunk-refresh:
 	open 'http://localhost:8000/en-US/account/insecurelogin?loginType=splunk&username=admin&password=${SPLUNK_PASSWORD}&return_to=%2Fen-US%2Fdebug%2Frefresh'
 
-clean:
+app-clean:
 	rm -fR "$(shell pwd)/appboilerplate/local/"
 	rm -fR "$(shell pwd)/appboilerplate/metadata/local.meta"
 
-pack:
+app-pack:
 	mkdir -p "$(shell pwd)/out"
 	docker run \
 		--volume $(shell pwd):/src \
@@ -55,7 +57,7 @@ pack:
 		--rm ${SPLUNK_IMAGE} \
 		tar -cvzf out/${APP}.tar.gz ${APP}
 
-appinspect:
-	docker run --volume $(shell pwd)/${APP}:/src/${APP} --rm outcoldsolutions/splunk-appinspect:latest
+app-inspect:
+	docker run --volume $(shell pwd)/${APP}:/src/${APP} --rm ${APPINSPECT_IMAGE}
 
 
