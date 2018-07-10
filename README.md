@@ -43,7 +43,7 @@ name you want to use) and update the files, that depends on that name
 ```
 APPNAME=appdemo
 mv appboilerplate ${APPNAME}
-sed -i '' 's/appboilerplate/${APPNAME}/' Makefile .gitignore ${APPNAME}/default/app.conf hack/splunk/etc/users/admin/user-prefs/local/user-prefs.conf
+sed -i '' "s/appboilerplate/${APPNAME}/" Makefile .gitignore ${APPNAME}/default/app.conf hack/splunk/etc/users/admin/user-prefs/local/user-prefs.conf
 ```
 
 Use your README.md file and rename the `LICENSE` to the `LICENSE-splunk-app-boilerplate`,
