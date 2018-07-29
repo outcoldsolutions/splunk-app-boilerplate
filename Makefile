@@ -1,4 +1,4 @@
-SPLUNK_IMAGE=splunk/splunk:7.1.0
+SPLUNK_IMAGE=splunk/splunk:7.1.2
 APPINSPECT_IMAGE=outcoldsolutions/splunk-appinspect:1.5.4.145
 
 SPLUNK_PASSWORD=splunkdev
@@ -46,8 +46,8 @@ splunk-refresh:
 	open 'http://localhost:8000/en-US/account/insecurelogin?loginType=splunk&username=admin&password=${SPLUNK_PASSWORD}&return_to=%2Fen-US%2Fdebug%2Frefresh'
 
 app-clean:
-	rm -fR "$(shell pwd)/appboilerplate/local/"
-	rm -fR "$(shell pwd)/appboilerplate/metadata/local.meta"
+	rm -fR "$(shell pwd)/${APP}/local/"
+	rm -fR "$(shell pwd)/${APP}/metadata/local.meta"
 
 app-pack:
 	mkdir -p "$(shell pwd)/out"
