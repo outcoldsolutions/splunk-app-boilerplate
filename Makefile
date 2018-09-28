@@ -1,5 +1,5 @@
 SPLUNK_IMAGE=splunk/splunk:7.1.2
-APPINSPECT_IMAGE=outcoldsolutions/splunk-appinspect:1.5.4.145
+APPINSPECT_IMAGE=outcoldsolutions/splunk-appinspect:1.6.0
 
 SPLUNK_PASSWORD=splunkdev
 
