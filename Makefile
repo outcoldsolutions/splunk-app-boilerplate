@@ -1,4 +1,4 @@
-SPLUNK_IMAGE=splunk/splunk:7.1.2
+SPLUNK_IMAGE=splunk/splunk:7.2.2
 APPINSPECT_IMAGE=outcoldsolutions/splunk-appinspect:1.6.0
 
 SPLUNK_PASSWORD=splunkdev
@@ -12,26 +12,23 @@ splunk-up:
 		-d \
 		--name ${APP}-splunk \
 		--hostname ${APP}-splunk \
-		--publish 8000:8000 \
-		--publish 8088:8088 \
-		--publish 8089:8089 \
+		--publish 18000:8000 \
+		--publish 18088:8088 \
+		--publish 18089:8089 \
 		--env "SPLUNK_USER=root" \
-		--env "SPLUNK_START_ARGS=--accept-license --answer-yes --seed-passwd ${SPLUNK_PASSWORD}" \
-		--volume ${APP}-splunk-etc:/opt/splunk/etc \
-		--volume ${APP}-splunk-var:/opt/splunk/var \
-		--volume $(shell pwd)/${APP}:/${APP} \
+		--env "SPLUNK_PASSWORD=${SPLUNK_PASSWORD}" \
+		--env "SPLUNK_START_ARGS=--accept-license" \
+		--env "SPLUNK_LICENSE_URI=/hack/splunk/licenses/license.lic" \
 		--volume $(shell pwd)/hack/splunk:/hack/splunk \
-		--env "SPLUNK_BEFORE_START_CMD=version \$${SPLUNK_START_ARGS}" \
-		--env "SPLUNK_BEFORE_START_CMD_1=cmd python -c \"import subprocess; subprocess.check_call('ln -s /${APP} /opt/splunk/etc/apps/${APP}', shell=True);\"" \
-		--env "SPLUNK_BEFORE_START_CMD_2=cmd python -c \"import subprocess; subprocess.check_call('cp -fR /hack/splunk/etc /opt/splunk/', shell=True);\"" \
-		--env "SPLUNK_CMD=add licenses -auth admin:${SPLUNK_PASSWORD} /hack/splunk/licenses/*.lic || true" \
-		--env "SPLUNK_CMD_1=restart" \
+		--volume $(shell pwd)/hack/defaults.yml:/tmp/defaults/default.yml \
+		--volume $(shell pwd)/appboilerplate:/opt/splunk/etc/apps/appboilerplate \
+		--volume ${APP}-splunk-var:/opt/splunk/var \
 		${SPLUNK_IMAGE}
 
 splunk-down:
 	-docker kill ${APP}-splunk
 	-docker rm -v ${APP}-splunk
-	-docker volume rm ${APP}-splunk-etc ${APP}-splunk-var
+	-docker volume rm ${APP}-splunk-var
 
 splunk-logs-follow:
 	docker logs -f ${APP}-splunk

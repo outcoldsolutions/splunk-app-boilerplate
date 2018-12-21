@@ -1,0 +1,29 @@
+splunk:
+  s2s_enable: 0
+  hec_disabled: 0
+  hec_token: 00000000-0000-0000-0000-000000000000
+  conf:
+    authentication:
+      splunk_auth:
+        minPasswordLength: 1
+    telemetry:
+      general:
+        optInVersionAcknowledged: 3
+        showOptInModal: 0
+    user-prefs:
+      general:
+        default_namespace: appboilerplate
+        search_use_advanced_editor: 'true'
+        search_line_numbers: 'false'
+        search_auto_format: 'false'
+        search_syntax_highlighting: 'dark'
+        tz: 'America/Los_Angeles'
+        hideInstrumentationOptInModal: 1
+    web:
+      settings:
+        enable_insecure_login: 'True'
+        ui_inactivity_timeout: 43200
+        cacheEntriesLimit: 0
+        cacheBytesLimit: 0
+        minify_js: 'False'
+        minify_css: 'False'
